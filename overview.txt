@@ -1,0 +1,396 @@
+system architecture:
+
+    This is a high-level description of the system's structure, its different components,
+    and how those components communicate with each other to fulfil the systems' requirements and constraints.
+
+
+system architecture levels
+    1. classes / structs
+    2. Modules/packages/liberies
+    3. Services ( processes/group of processes)
+
+    note:
+        Distributed and multiple service approach allows us to architect systems that can
+        i. handle large amounts of data
+        ii. Process and sttore very large ammounts of data
+        iii. serve many users everyday
+
+        example.
+            1. Ride sharing
+            2. Video-on-demand
+            3. Online Video games
+            4. Investment Services
+            5. 
+            
+        if we get the architecture right we can:
+            1. Go from a startup to a multi-billion dollar company
+            2. Make positive impact on millions of people.
+
+        not getting it right:
+            1. waste engineering time
+            2. system would not be able to scale or meet requirements
+            3. Restructuring is hard n expensive.
+
+
+software development cycle
+
+    1. Design
+    2. Implementation
+    3. Testing
+    4. Deployment
+
+
+    Software architecture is the output of the design phase and the input of the implementation phase. It lies inbetwwen design and implementation.
+    Since we cannot prove Software architecture to be correct or optimal. we can gaurantee its success by doing the following.
+
+    1. Methodical Design Process
+    2. Architectural Patterns
+    3. Best Practices.
+
+Desiging large scale system
+    problems of designing large scale systems
+
+    1. where to begin
+    2. high level of ambiguity
+    3. 
+
+
+    example:
+
+        High Level Requirement-:
+            " Allow people to join drivers on a route, who are willing to take passangers for a fee"
+
+        clarifying questions
+         1. real time vs advance resevation
+         2. User Experience - Mobile? Desktop? Both?
+         3. Payment through us or direct payment ?
+
+Types of requirements/ Architetural drivers
+    1. Functional requirements : features of the system
+    2. Non-Functional requirements: Quality attributes which includes Scalability, Availability, Reliability, security and performance e.t.c.
+                                    This are the system must have. 
+
+    3. Limitations and boundries: system constraints. This includes
+                                    Time, Financial and Staffing constraints.
+
+
+
+system design language
+    1. unified modeling language: UML diagrams are mostly for software design.
+        i sequence diagram -> standard for visiaulizing system design
+                              creatively tool -> https://app.creately.com/d/6iDDwQ4SvmU/edit/s/1d3Q2gDFClF
+
+
+# most important attribute in a large scale.
+
+    A. Performance
+        1. Performance - response time. 
+                        response time or "Emd to end latency" = Processing time + waiting time (latency)
+                        measured in seconds
+
+                        Tail latency: 
+                            The small percentage of response times from a system, that takes the longest in comparison to the rest of values.
+        2. Performance - Throughput
+                        Amount of data/task processed by our system per unit of time.
+                        measured in bits/second, Bytes/second, MBytes/second
+        3. Important considerations
+
+        1. Proper measuring of response time.
+        
+            - The concept of distributed response time
+            All users can not experience the same response time in practice.
+
+        2. Response time percentile distribution
+            - Response time distribution history
+            - percentile distribution --> use percentile distribution and not average
+
+        
+        3. performance degredation:
+            - That point where our systems performs poorly as the loa starts increasing.
+            - The graph of Response Time Vs Load. always shows the degredation point.
+
+
+    B. Scalability
+        we expect our system to grow.
+
+        Traffic pattern : a graph of Load and Time on our system.
+
+        Scalability is the measure of a systems ability to handle growing amount of work, in an easy and cost effective way, by adding resources to the system.
+         This is a graph of ammount of work and resources.
+
+        Types
+            1. horizontal
+            2. vertical scalability
+
+    C. Availability
+
+     a = %(uptime / ( downtime + uptime))
+    
+    D. fault tolerance system
+
+        Fault tolerance Methods
+
+        1. Failure Prevention
+
+                a. Eliminate a single point of failure in our system
+                   single point of failure can be:
+                    - one server running our application
+                    - storing all data in an instance of a Distributed
+                    Best way to elimanate single point of failure is via 
+                    1. replication 
+                        - horizontal scaling as opposed to vertical scaling
+                        - distributed systems as opposed  to one server running all the logic
+                        - replicas 
+                    2. redundacy
+                        Spatial redundacy - spatial replicas of our applications on different servers
+                        Time redundacy - Repeating the same operation/request multiple time until we give up
+
+                b. industry proving Failure prevention Methods
+                    1. Active-Active architecture
+                    2. Active-Passive architecture
+
+        2. Failure Detection and Isolation
+            Tools that can monitor
+                1. monitoring tools for heartbeats/pings e.g prometheus, cloudwatch  
+                2. load balancer
+
+        3. Recovery
+           - stops the host
+           - Restart the host
+           - perform a Rollback
+
+    E. SLA, SLOs, SLIs, Important considerations
+
+        SLA --> Service Level agreement made to our clients which includes
+                Agregates all SLAs on different service in a single documeent
+                - External clients
+                - 3rd party providers
+                - Internal customers
+
+                notes: Free services don't have SLA
+
+        SLO --> Service Level Objectives are individual goals we set for our system
+
+                note: SLOs are must have. Even when our services don't have SLA. it must hava an SLO.
+
+
+        SLIs --> quantitative measure of our compliance with a service-level Objectives
+                 - This are the actual numbers
+                    i. measured from a monitoring service
+                    ii. Calculated from our logs.
+
+        SLAs are defined by business and legal team
+        SLOs and SLIs are defined and set by the software engineers.
+
+
+        Important Considerations:
+
+        1. We shouldn't take every SLI we can define in our system and define an objective associated with it.
+           Instead we should set objectives on metrics prioritized by our user.
+
+        2. Promising fewer SLOs is better
+
+        3. Setting realistic goals with a budget for error.
+
+        4. Create a recovery plan for when SLIs show that we are not meeting our SLOs
+
+        5. Always have a recovery plan ahead of time.
+           the recovery plsn should have
+            1. Automatic alerts to engineers/DevOps
+            2. Automatic failovers/restarts/rollbacks/auto-scallin policies
+            3. Predefined handbooks on what to do as at when.
+
+
+API design:
+    1. API design
+    2. types of API
+        i.   public
+        ii.  private/Internal
+        iii. partners
+    3. xtics of a good API
+    
+
+    RPC -- remote procedure Call
+           Ability of client application to execute sub routine on server application 
+
+    REST API -- representational state transfer
+
+
+components of a large scale system
+
+  1. load balancer
+      types of loadbalancer
+
+         1- DNS loadbalancer
+             --uses round robin server
+             -- acrivates when we buy a domain name
+             -- does not check the health of our servers
+
+         2- Hardware loadbalancer -- hardware loadbalncer configure for a system
+         3- Software loadbalancer -- software application that performs loadbalancing capabilities
+
+             -- balance load more intelligently
+             -- they abstract the IP address of our 
+             -- not intelligent to Regional failures only intelligent on the servers deployed to.
+             --  e.g AWS ELB
+             
+        4- Global load balancer 
+            -- takes care of DNS, hardware and software lobalancer drawbacks
+             -- e.g AMAZON Route 
+             
+        # Spof -- single point of failure mitigation
+                   use more than one loadbalancer to which your client talks to
+
+        
+ 2. Message broker
+    - bulding block to any aynchronous system
+    - its Internal
+    - uses publish/subscribe pattern.
+
+ 3. API gateway
+        helps with API management of our microservices
+
+     - API composition
+     - Routing of request to different services
+     - Must not contain any business logic
+
+     # Spof -- single point of failure mitigation
+        Deploy multiple instance having the API gateway application and place behind a loadbalancer
+
+
+
+Databases
+
+    Relational DB
+
+       Advantages->  ACID
+
+        - Atomicity --> db operations appear once in all cell concerns or don't appear at all
+        - Consistency --> Changes are consistent.
+        - Isolation   --> allows concurent activitie
+        - Durability  --> no data is lost by previous query
+
+
+        disadvantages
+        - rigid dtrucutre enforced by schema
+        - Changes in schema structure may require some downtime/maintenance time
+        - Slower read operations
+
+
+    
+    Non- Relational DB
+        Advantages--> faster queries 
+        Disadvantage --> Difficult data manipulation, no ACID features
+
+
+
+       
+    Database technique in large data systems
+
+        1. Database Indexing
+                - speed up retrieval operations
+                - Locate desired record in a sublinear time
+                - without indexing table may require
+                        i. Full tbale scan
+                        ii. Take a long time for large table
+
+                - we can create an index table for a Column or  sets of columns.
+                - once the index table is created we put it inside a data structure like
+                        i. Hashmap
+                        ii. Self-balanced tree (B-Tree)
+                - read offs
+                    - read operation is faster
+                    - write operation is Slower
+                    - consumes more space based on having to create table for the index                                 
+                    
+
+
+
+
+        2. Database replication
+            - Ruinning multiple DBs replica at the same time
+            - Trade offs
+                    - handles higher throuhgput
+                    - highly available
+                    - higher Complexity 
+                        - for operations like --> Write, Update, delete
+                        - distribute DBs are notoriously difficult to design
+                - feature Availability
+                    - comes with Non-relational DBs
+                    - you will have to implement on relational DBs
+            
+
+
+
+        3. Database Partioning / Sharding
+
+            - This is seperating data on different DB instances
+            - This inv olves a routing mechanism where we route querires to the DB instance to handle it.
+            - Eventually becomes a distributed service
+
+            - feature Availability
+                - comes with Non-relational DBs
+                - you will have to implement on relational DBs
+        
+
+     
+    CAP THEOREM:
+
+        - This is a 3 way venne diagram of Network partition, Consistency and Availability
+        - states that, 'In the presence of a Network Partition, a dsitributed DBs cannot gaurantee
+           both Consistency and Availability and has to choose only one of them.
+
+
+    Architectural Patterns
+
+        - Architectural pattern are repeatable solutions to commonly occuring system design problems
+        - This are guidelines for designing
+        - Why use
+            - save valuable time and resources
+            - Avoid making our architecture resemble a Big Ball of Mud
+            - Other Engineers/software architects can follow it.
+
+
+        1. 1 tier pattern
+        2. 2 tier pattern
+        3. 3 tier pattern --> can fit into any startup 
+                              also called a monolithic architeture as all business logic is one deployable unit.
+
+        4. Microsrvice architecture
+
+            - organizational decoupling tips
+              1. Every change to a a service can only happen in that service
+              2. This changes does not involve multiple teams.
+
+              principles includes:
+               i. Single responsibility 
+                        a. can have single API gateway that talks to dfferent service based on user request
+                        b. can have multiple API gateway for differents user device and routes to different service
+               ii. Seperate DB per service.
+                    - Databse has to be completely independent to do its work
+                    - Monolithic DB should be shared in such a way that service DB can have the following properties.
+                    - Data duplication is expected just to make sure each service DB is independent.
+
+               drawbacks
+                1. Services will need to talk to one another over a network/API call.
+
+        5. Event driven Architecture
+
+
+            -  An Event is an immutable statement of a fact for a change
+            -  Event Emmitter/ producer  -->  Message Broker   --> Consumer
+            -  Event Patterns
+                   1. Event sourcing: Archives Events that can be used acted upon by the system
+                   2. CQRS - Command Query Responsibility Segregation. solves 2 problems
+                            1. optimizing DB with high load of Read and Update
+                                 i.  works in a distributed DBs system
+                                 ii. Speerates The read and write to a different  DB
+                                 iii. when the write arm gets updated it publishes a message to a broker. The read arm is already subscribed to the broker and updates itself accordingly
+
+
+     Steps to setting up a detailed system design
+        1.  ask questions ro capture all requirements
+        2.  Define system API via UML/sequence diagram
+        3.  Create a software Architecture Diagram to fulfil Functional requirements
+        4.  Refine the Software architecture Diagram to address the Non-Functional requirements.
+                                    
